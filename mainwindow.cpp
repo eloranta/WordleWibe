@@ -3,6 +3,7 @@
 
 #include <QCoreApplication>
 #include <QFile>
+#include <QFontDatabase>
 #include <QPlainTextEdit>
 #include <QStatusBar>
 
@@ -11,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->stringsView->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     loadStrings();
 }
 
