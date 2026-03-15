@@ -18,6 +18,8 @@ public:
     ~MainWindow();
 
 private:
+    void loadStrings();
+
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
