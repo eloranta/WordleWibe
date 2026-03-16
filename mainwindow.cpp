@@ -157,6 +157,9 @@ void MainWindow::applyFilters()
     const int removedCount = m_candidateWords.size() - filteredWords.size();
     m_candidateWords = filteredWords;
     refreshStringsView();
+    if (!m_candidateWords.isEmpty()) {
+        setCurrentCandidateWord(m_candidateWords.first());
+    }
     QStringList ruleSummary;
     if (!lettersToExclude.isEmpty()) {
         ruleSummary.append(tr("gray %1").arg(lettersToExclude));
@@ -188,27 +191,26 @@ void MainWindow::initializeLetterBoxes()
 {
     m_letterBoxes = {ui->letterBox1, ui->letterBox2, ui->letterBox3, ui->letterBox4, ui->letterBox5};
 
-    const QString initialWord = QStringLiteral("CRANE");
-    for (int i = 0; i < m_letterBoxes.size(); ++i) {
-        QLabel *label = m_letterBoxes.at(i);
+    for (QLabel *label : m_letterBoxes) {
         label->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
-        label->setText(initialWord.mid(i, 1));
         label->installEventFilter(this);
-        setLetterBoxState(label, LetterState::NotInWord);
     }
 }
 
 void MainWindow::resetGame()
 {
-    const QString initialWord = QStringLiteral("CRANE");
-    for (int i = 0; i < m_letterBoxes.size(); ++i) {
-        QLabel *label = m_letterBoxes.at(i);
-        label->setText(initialWord.mid(i, 1));
-        setLetterBoxState(label, LetterState::NotInWord);
-    }
-
+    setCurrentCandidateWord(QStringLiteral("CRANE"));
     loadStrings();
     statusBar()->showMessage(tr("Reset to initial word list and starting state"));
+}
+
+void MainWindow::setCurrentCandidateWord(const QString &word)
+{
+    for (int i = 0; i < m_letterBoxes.size(); ++i) {
+        QLabel *label = m_letterBoxes.at(i);
+        label->setText(word.mid(i, 1));
+        setLetterBoxState(label, LetterState::NotInWord);
+    }
 }
 
 void MainWindow::setLetterBoxState(QLabel *label, LetterState state)

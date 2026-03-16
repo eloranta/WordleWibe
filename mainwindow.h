@@ -37,6 +37,7 @@ private:
     void refreshStringsView();
     void initializeLetterBoxes();
     void resetGame();
+    void setCurrentCandidateWord(const QString &word);
     void setLetterBoxState(QLabel *label, LetterState state);
     LetterState nextLetterState(LetterState state) const;
 
